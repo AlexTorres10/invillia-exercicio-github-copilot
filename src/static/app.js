@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const activitySelect = document.getElementById("activity");
   const signupForm = document.getElementById("signup-form");
   const messageDiv = document.getElementById("message");
+  const participantInfoDiv = document.getElementById("participant-info");
 
   // Function to fetch activities from API
   async function fetchActivities() {
@@ -32,6 +33,13 @@ document.addEventListener("DOMContentLoaded", () => {
           <ul>${participantsList}</ul>
         `;
 
+        // Add event listener to participant names
+        activityCard.querySelectorAll("li").forEach(participant => {
+          participant.addEventListener("click", () => {
+            showParticipantInfo(participant.textContent);
+          });
+        });
+
         activitiesList.appendChild(activityCard);
 
         // Add option to select dropdown
@@ -44,6 +52,21 @@ document.addEventListener("DOMContentLoaded", () => {
       activitiesList.innerHTML = "<p>Failed to load activities. Please try again later.</p>";
       console.error("Error fetching activities:", error);
     }
+  }
+
+  // Function to show participant info
+  function showParticipantInfo(participantName) {
+    participantInfoDiv.innerHTML = `<p>Loading participant info...</p>`;
+    participantInfoDiv.classList.remove("hidden");
+
+    // Simulate fetching participant info from API
+    setTimeout(() => {
+      participantInfoDiv.innerHTML = `
+        <h4>Participant: ${participantName}</h4>
+        <p>Email: ${participantName.toLowerCase().replace(" ", ".")}@mergington.edu</p>
+        <p>Additional info about ${participantName}...</p>
+      `;
+    }, 1000);
   }
 
   // Handle form submission
